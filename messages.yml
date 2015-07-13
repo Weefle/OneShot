@@ -1,0 +1,3 @@
+prefix: '&7&l>>'
+player_join: '&6%player% &ahat das Spiel betreten &7(%online%/%max%)'
+player_leave: '&c%player% &ahat das Spiel verlassen &7(%online%/%max%)'
