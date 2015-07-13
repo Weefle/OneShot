@@ -1,0 +1,12 @@
+name: OneShot
+main: de.zortax.oneshot.OneShot
+version: 1.0
+author: Zortax
+description: OneShot Plugin
+commands:
+   stats:
+      description: Statistics
+      usage: /stats
+   start:
+      description: Forces the game to start
+      usage: /start
