@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import de.zortax.oneshot.OneShot;
+import de.zortax.oneshot.game.GameState;
 
 public class StartCommandExecutor implements CommandExecutor {
 
@@ -17,8 +18,23 @@ public class StartCommandExecutor implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lable,	String[] args) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		if(!sender.isOp()){
+			sender.sendMessage(os.getConfigManager().getPrefixedMessage("no_permissions"));
+		}else{
+			if(os.getGameManager().getState() == GameState.LOBBY){
+				sender.sendMessage(os.getConfigManager().getPrefixedMessage("forced_start"));
+			}else{
+				sender.sendMessage(os.getConfigManager().getPrefixedMessage("allready_started"));
+			}
+		}
+		
+		
+		
+		
+		
+		
+		return true;
 	}
 
 }

@@ -10,3 +10,6 @@ commands:
    start:
       description: Forces the game to start
       usage: /start
+   oneshot:
+      description: Maincommand (Setup)
+      usage /start <option> [arguments]

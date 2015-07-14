@@ -1,3 +1,6 @@
 prefix: '&7&l>>'
 player_join: '&6%player% &ahat das Spiel betreten &7(%online%/%max%)'
 player_leave: '&c%player% &ahat das Spiel verlassen &7(%online%/%max%)'
+no_permissions: '&cDu hast keine Berechtigungen dies zu tun!'
+allready_started: '&cDas Spiel hat bereits gestartet!'
+forced_start: '&aDas Spiel wird gestartet!'

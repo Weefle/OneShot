@@ -1,6 +1,5 @@
 package de.zortax.oneshot.stats;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import org.bukkit.entity.Player;

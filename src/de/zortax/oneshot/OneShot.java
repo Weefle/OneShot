@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.zortax.oneshot.command.OneShotCommandExecutor;
 import de.zortax.oneshot.command.StartCommandExecutor;
 import de.zortax.oneshot.command.StatsCommandExecutor;
 import de.zortax.oneshot.data.ConfigManager;
@@ -35,6 +36,7 @@ public class OneShot extends JavaPlugin {
 		// command executor
 		this.getCommand("start").setExecutor(new StartCommandExecutor(this));
 		this.getCommand("stats").setExecutor(new StatsCommandExecutor(this));
+		this.getCommand("oneshot").setExecutor(new OneShotCommandExecutor(this));
 		
 		
 		// listener
