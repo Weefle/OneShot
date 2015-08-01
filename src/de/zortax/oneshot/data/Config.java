@@ -1,7 +1,6 @@
 package de.zortax.oneshot.data;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
@@ -33,8 +32,11 @@ public class Config {
 	
 	
 	public void reloadConfig() {
+		
+		
+		
 	    if (customConfigFile == null) {
-	    customConfigFile = new File(plugin.getDataFolder(), name);
+	    	customConfigFile = new File(plugin.getDataFolder(), name);
 	    }
 	    customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
 	 
@@ -72,16 +74,17 @@ public class Config {
 	        customConfigFile = new File(plugin.getDataFolder(), name);
 	    }
 	    if (!customConfigFile.exists()) {            
-	         plugin.saveResource(name, false);
+	         plugin.saveResource(name, true);	    	
 	    }
 	}
 	
 	
 	
 	public void forceSave(){
+		this.saveConfig();
 		try {
 			customConfig.save(customConfigFile);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

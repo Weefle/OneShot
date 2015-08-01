@@ -1,3 +1,4 @@
+enabled: false
 players_to_start: 6
 min_players: 2
 max_players: 12

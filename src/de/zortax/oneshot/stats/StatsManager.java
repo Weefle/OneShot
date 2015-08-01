@@ -18,6 +18,7 @@ public class StatsManager {
 		this.os = os;
 		
 		data = new Config("stats", os);
+		data.saveConfig();
 		stats = new HashMap<>();
 		
 	}
@@ -43,14 +44,16 @@ public class StatsManager {
 			kd = (double) stat.kills / stat.deaths;
 		}
 		
-		p.sendMessage(OneShot.color("&7--- &6STATS &7----"));
-		p.sendMessage(OneShot.color("&6Kills: &c" + stat.kills));
-		p.sendMessage(OneShot.color("&6Tode: &c" + stat.deaths));
-		p.sendMessage(OneShot.color("&6K/D: &c" + String.format("%.2f", kd)));
-		p.sendMessage(OneShot.color("&6Spiele: &c" + stat.games));
-		p.sendMessage(OneShot.color("&7-------------"));
+		p.sendMessage(OneShot.color("&7▬▬▬▬ &6STATS &7▬▬▬▬"));
+		p.sendMessage(OneShot.color("&7├&6Kills: &c" + stat.kills));
+		p.sendMessage(OneShot.color("&7├&6Tode: &c" + stat.deaths));
+		p.sendMessage(OneShot.color("&7├&6K/D: &c" + String.format("%.2f", kd)));
+		p.sendMessage(OneShot.color("&7├&6Spiele: &c" + stat.games));
+		p.sendMessage(OneShot.color("&7▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"));
 		
 	}
+	
+	//Getter-Methoden
 	
 	public Stat getStat(Player p){
 		
@@ -69,6 +72,10 @@ public class StatsManager {
 		}
 		
 		return stat;
+	}
+	
+	public Config getCustomConfig(){
+		return data;
 	}
 	
 }

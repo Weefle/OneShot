@@ -7,12 +7,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import de.zortax.oneshot.OneShot;
-import de.zortax.oneshot.data.Config;
+import de.zortax.oneshot.data.MapConfig;
 
 public class Map {
 	
 	private String name;
-	private Config config;
+	private MapConfig config;
 	private OneShot os;
 	private ArrayList<Location> spawns;
 	private MapState state;
@@ -21,9 +21,11 @@ public class Map {
 		
 		this.os = os;
 		this.name = name;
-		config = new Config(this.name, this.os);
+		config = new MapConfig(this.name, this.os);
+		config.saveConfig();
 		spawns = new ArrayList<>();
 		state = MapState.LOADING;
+		loadSpawns();
 		
 		
 		
@@ -69,12 +71,19 @@ public class Map {
 			config.getConfig().getConfigurationSection("spawn" + i).set("YAW", spawns.get(i).getYaw());
 			config.getConfig().getConfigurationSection("spawn" + i).set("PITCH", spawns.get(i).getPitch());
 		}
+		config.forceSave();
 		
 	}
 	
 	public void addSpawn(Location loc){
 		spawns.add(loc);
 		saveSpawns();
+		
+		if(spawns.size() < os.getConfig().getInt("max_players")){
+			state = MapState.SMALL;
+		}else if(spawns.size() >= os.getConfig().getInt("max_players")){
+			state = MapState.READY;
+		}
 	}
 	
 	

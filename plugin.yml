@@ -12,4 +12,4 @@ commands:
       usage: /start
    oneshot:
       description: Maincommand (Setup)
-      usage /start <option> [arguments]
+      usage: /start <option> [arguments]

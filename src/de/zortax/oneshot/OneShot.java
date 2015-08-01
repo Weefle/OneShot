@@ -1,7 +1,6 @@
 package de.zortax.oneshot;
 
-import net.md_5.bungee.api.ChatColor;
-
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.zortax.oneshot.command.OneShotCommandExecutor;
@@ -10,8 +9,10 @@ import de.zortax.oneshot.command.StatsCommandExecutor;
 import de.zortax.oneshot.data.ConfigManager;
 import de.zortax.oneshot.game.GameManager;
 import de.zortax.oneshot.listener.PlayerListener;
+import de.zortax.oneshot.listener.ShopItemListener;
 import de.zortax.oneshot.listener.ShopListener;
 import de.zortax.oneshot.map.MapManager;
+import de.zortax.oneshot.map.voting.VotingManager;
 import de.zortax.oneshot.stats.StatsManager;
 import de.zortax.oneshot.user.UserManager;
 
@@ -23,6 +24,7 @@ public class OneShot extends JavaPlugin {
 	private MapManager mapManager;
 	private StatsManager statsManager;
 	private UserManager userManager;
+	private VotingManager votingManager;
 	
 
 	
@@ -32,6 +34,8 @@ public class OneShot extends JavaPlugin {
 		// Alle Listener und Command Ecexutors registrieren...
 		this.getLogger().info("Lade Plugin...");
 		
+		//Default-Config
+		this.saveDefaultConfig();
 		
 		// command executor
 		this.getCommand("start").setExecutor(new StartCommandExecutor(this));
@@ -42,6 +46,7 @@ public class OneShot extends JavaPlugin {
 		// listener
 		this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 		this.getServer().getPluginManager().registerEvents(new ShopListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new ShopItemListener(this), this);
 		
 		
 		//Manager-Objekte erzeugen
@@ -50,7 +55,11 @@ public class OneShot extends JavaPlugin {
 		mapManager = new MapManager(this);
 		statsManager = new StatsManager(this);
 		userManager = new UserManager(this);
+		votingManager = new VotingManager(this);
 		
+		
+		//Maps laden
+		mapManager.loadMaps();
 		
 		
 	}
@@ -86,9 +95,13 @@ public class OneShot extends JavaPlugin {
 		return userManager;
 	}
 	
+	public VotingManager getVotingManager(){
+		return votingManager;
+	}
+	
 	
 	public static String color(String msg){
-		return ChatColor.translateAlternateColorCodes('&', msg);
+		return ChatColor.translateAlternateColorCodes('&', msg.replace("%ue%", "ü").replace("%ae%", "ä").replace("%oe%", "ö"));
 	}
 	
 }
