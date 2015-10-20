@@ -1,5 +1,6 @@
 package de.zortax.oneshot;
 
+import de.zortax.oneshot.plugin.PluginManager;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,6 +26,7 @@ public class OneShot extends JavaPlugin {
 	private StatsManager statsManager;
 	private UserManager userManager;
 	private VotingManager votingManager;
+	private PluginManager pluginManager;
 	
 
 	
@@ -56,10 +58,20 @@ public class OneShot extends JavaPlugin {
 		statsManager = new StatsManager(this);
 		userManager = new UserManager(this);
 		votingManager = new VotingManager(this);
+		pluginManager = new PluginManager(this);
 		
 		
 		//Maps laden
 		mapManager.loadMaps();
+
+		//OneShot-Plugins laden
+        try {
+			getLogger().info("Lade OneShot-Erweiterungen...");
+            pluginManager.loadPlugins();
+        } catch (Exception e) {
+            getLogger().info("Beim Laden der OneShot-Plugins ist ein Fehler aufgetreten: " + e.getMessage());
+            e.printStackTrace();
+        }
 		
 		
 	}
@@ -101,7 +113,7 @@ public class OneShot extends JavaPlugin {
 	
 	
 	public static String color(String msg){
-		return ChatColor.translateAlternateColorCodes('&', msg.replace("%ue%", "ü").replace("%ae%", "ä").replace("%oe%", "ö"));
+		return ChatColor.translateAlternateColorCodes('&', msg.replace("%ue%", "Ã¼").replace("%ae%", "Ã¤").replace("%oe%", "Ã¶"));
 	}
 	
 }

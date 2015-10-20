@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList;
 
 import de.zortax.oneshot.user.User;
 
-public class OneShotPlayerDeathEvent extends Event{
+public class OneShotPlayerDeathEvent extends Event {
 	
 	private static final HandlerList handlers = new HandlerList();
 
@@ -18,7 +18,7 @@ public class OneShotPlayerDeathEvent extends Event{
 		return handlers;
 	}
 	
-	public static HandlerList getHandlerList(){
+	public static HandlerList getHandlerList() {
 		return handlers;
 	}
 	
@@ -30,19 +30,19 @@ public class OneShotPlayerDeathEvent extends Event{
 	
 	//Getter-Methoden
 	
-	public User getUser(){
+	public User getUser() {
 		return killed;
 	}
 	
-	public Player getPlayer(){
+	public Player getPlayer() {
 		return killed.getPlayer();
 	}
 	
-	public User getKiller(){
+	public User getKiller() {
 		return killer;
 	}
 	
-	public Player getKillerPlayer(){
+	public Player getKillerPlayer() {
 		return killer.getPlayer();
 	}
 

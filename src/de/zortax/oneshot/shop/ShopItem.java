@@ -2,9 +2,11 @@ package de.zortax.oneshot.shop;
 
 import java.util.List;
 
+import de.zortax.oneshot.event.OneShotMoneyChangeEvent;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -28,6 +30,10 @@ public abstract class ShopItem {
 		this.name = name;
 		this.price = price;
 		this.description = description;
+	}
+
+	public void setOs (OneShot os) {
+		this.os = os;
 	}
 	
 	
@@ -103,7 +109,8 @@ public abstract class ShopItem {
 	public abstract void onHit(EntityDamageEvent event);
 	public abstract void onEnemyHit(EntityDamageEvent event);
 	public abstract void onShot(EntityDamageEvent event);
-	public abstract void onMoneyChange();
+	public abstract void onMoneyChange(OneShotMoneyChangeEvent event);
 	public abstract void onFallDamage(EntityDamageEvent event);
+	public abstract void onInteract(PlayerInteractEvent event);
 
 }

@@ -1,5 +1,7 @@
 package de.zortax.oneshot.listener;
 
+import de.zortax.oneshot.event.OneShotMoneyChangeEvent;
+import de.zortax.oneshot.shop.ShopItem;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -57,14 +59,14 @@ public class PlayerListener implements Listener{
 	}
 	
 	@EventHandler
-	public void onMove(PlayerMoveEvent event){
+	public void onMove(PlayerMoveEvent event) {
 		if(os.getGameManager().getState() == GameState.WARMUP){
 			event.setCancelled(true);
 		}
 	}
 	
 	@EventHandler
-	public void onHunger(FoodLevelChangeEvent event){
+	public void onHunger(FoodLevelChangeEvent event) {
 		
 		if(os.getGameManager().getState() != GameState.DISABLED){
 			event.setCancelled(true);
@@ -75,11 +77,15 @@ public class PlayerListener implements Listener{
 	}
 	
 	@EventHandler
-	public void onDamage(EntityDamageEvent event){
+	public void onDamage(EntityDamageEvent event) {
 		
 		if(event.getEntity() instanceof Player){
 			
-			if(os.getGameManager().getState() == GameState.LOBBY) event.setCancelled(true);
+			if(os.getGameManager().getState() == GameState.LOBBY
+					|| os.getGameManager().getState() == GameState.STARTING
+					|| os.getGameManager().getState() == GameState.WARMUP) event.setCancelled(true);
+
+
 			
 			// TODO
 			
@@ -88,7 +94,7 @@ public class PlayerListener implements Listener{
 	}
 	
 	@EventHandler
-	public void onBlockBreak(BlockBreakEvent event){
+	public void onBlockBreak(BlockBreakEvent event) {
 		if(os.getGameManager().getState() != GameState.DISABLED) event.setCancelled(true);
 	}
 	
@@ -96,39 +102,43 @@ public class PlayerListener implements Listener{
 	//Voting
 	
 	@EventHandler
-	public void onInventoryClick(InventoryClickEvent event){
+	public void onInventoryClick(InventoryClickEvent event) {
 		
-		if(os.getGameManager().getState() == GameState.LOBBY){
-			
+		if(os.getGameManager().getState() == GameState.LOBBY) {
 			event.setCancelled(true);
-			
 			if(event.getInventory().getTitle().equalsIgnoreCase(os.getConfigManager().getRawMessage("voting_menu_title"))){
-				
 				if(event.getCurrentItem() == null)
 					return;
-				
 				String mapTitle = event.getCurrentItem().getItemMeta().getDisplayName();
 				
-				for(Map c : os.getMapManager().getMaps()){
+				for(Map c : os.getMapManager().getMaps()) {
 					if(c.getState() == MapState.READY){
 						if(mapTitle.equalsIgnoreCase(ChatColor.GOLD + c.getName()))
 							os.getVotingManager().vote((Player) event.getWhoClicked(), c);
 					}
 				}
-				
 			}
-			
 		}
 	}
 	
 	@EventHandler
-	public void onClick(PlayerInteractEvent event){
+	public void onClick(PlayerInteractEvent event) {
 		if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK){
 			if(os.getGameManager().getState() == GameState.LOBBY){
 				if(event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(os.getConfigManager().getRawMessage("voting_menu_title")) || event.getItem().getItemMeta().getDisplayName().contains(os.getConfigManager().getRawMessage("voting_menu_title"))){
 					event.getPlayer().openInventory(os.getVotingManager().getVoteInventory(event.getPlayer()));
 				}
 			}
+			if (os.getGameManager().getState() == GameState.INGAME) {
+				os.getUserManager().getUser(event.getPlayer()).getBoughtItems().stream().filter(c -> c.getItem().equals(event.getItem())).forEach(c -> c.onInteract(event));
+			}
+		}
+	}
+
+	@EventHandler
+	public void onMoneyChange(OneShotMoneyChangeEvent event) {
+		if(os.getGameManager().getState() == GameState.INGAME) {
+			event.getUser().getBoughtItems().forEach((item) -> item.onMoneyChange(event));
 		}
 	}
 

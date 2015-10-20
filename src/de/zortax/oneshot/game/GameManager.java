@@ -27,36 +27,31 @@ public class GameManager {
 		userCount = 0;
 		
 		if(os.getConfig().getBoolean("enabled")) state = GameState.LOBBY;
-		
-	}
+    }
 	
 	
 	public void setUserCount(int userCount){
 		this.userCount = userCount;
-		
-		if(state == GameState.LOBBY){
+        if(state == GameState.LOBBY){
 			
 		}
 		
 	}
 	
 	public void startGame(){
-		
-		if(state == GameState.LOBBY && userCount >= os.getConfig().getInt("min_players")){
+        if(state == GameState.LOBBY && userCount >= os.getConfig().getInt("min_players")){
 			state = GameState.STARTING;
 			StartTimer st = new StartTimer();
 			st.start();
 		}
-		
-	}
+    }
 
 	
 	//Getter-Methoden
 	
 	public GameState getState(){
 		return state;
-		
-	}
+    }
 	
 	public int getPlayerCount(){
 		return userCount;
@@ -83,15 +78,11 @@ public class GameManager {
 		
 		@Override
 		public void run(){
-			
 			state = GameState.STARTING;
-			
 			for(User c : os.getUserManager().getUsers()){
 				c.getPlayer().getInventory().clear();
 			}
-			
 			selectedMap = os.getVotingManager().endVoting();
-			
 			for(Player c : Bukkit.getOnlinePlayers()){
 				c.getInventory().clear();				
 			}
@@ -99,15 +90,11 @@ public class GameManager {
 			Bukkit.broadcastMessage(os.getConfigManager().getPrefixedMessage("voting_ended").replace("%map%", selectedMap.getName()));
 			
 			for(int i = 30; i > 0; i--){
-				
-				
 				if(i == 30 || i == 20 || i <= 10)
 					Bukkit.broadcastMessage(os.getConfigManager().getPrefixedMessage("game_teleport_starting").replace("%sec%", i + ""));
-				
 				for(Player c : Bukkit.getOnlinePlayers()){
 					c.setLevel(i);
 				}
-				
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {

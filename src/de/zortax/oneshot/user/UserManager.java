@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -49,6 +50,8 @@ public class UserManager {
 		user.getPlayer().setScoreboard(board);
 		os.getGameManager().setUserCount(users.size());
 		this.updateScoreboard();
+
+		user.getPlayer().setGameMode(GameMode.ADVENTURE);
 		
 		ItemStack is = new ItemStack(Material.CHEST);
 		ItemMeta im = is.getItemMeta();
